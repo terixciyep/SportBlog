@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
-# Create your views here.
+from sportsman.models import Sportsman_user
+from services.serializers import AthleteSerializer
+
+class AthleteInfoView(ReadOnlyModelViewSet):
+    queryset = Sportsman_user.objects.all()
+    serializer_class = AthleteSerializer
+
