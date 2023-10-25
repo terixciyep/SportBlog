@@ -27,7 +27,7 @@ services:
       - POSTGRES_PASSWORD=admin
     container_name: pgdb
     volumes:
-      - pgdbdata:/var/lib/postgresql/data/
+      - pgdata:/var/lib/postgresql/data/
 
 volumes:
-  pgdbdata: null
+  pgdata: null
