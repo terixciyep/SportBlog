@@ -1,6 +1,7 @@
 {% extends 'sportsman/base.html' %}
 
 {% block main %}
+    {{ request.user.email }}
     <form method="post" action="{% url 'sportsman:registration'">
         {% csrf_token %}
         <h1>Регистрация</h1>

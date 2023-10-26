@@ -5,5 +5,4 @@ from django.contrib.auth.admin import UserAdmin
 from sportsman.models import Sport, Sportsman_user
 
 admin.site.register(Sport)
-User = get_user_model()
-admin.site.register(Sportsman_user, UserAdmin)
+admin.site.register(Sportsman_user)

@@ -1,10 +1,13 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 import django.contrib.auth.urls
-from sportsman.forms import UserCreationForm
+from sportsman.forms import UserCreationForm, AuthForm
+
+
 # Create your views here.
 
 class Register(View):
@@ -26,8 +29,11 @@ class Register(View):
 
 
 class LoginViewApp(LoginView):
-    form_class = AuthenticationForm
-    authentication_form = None
+    form_class = AuthForm
     template_name = "registration/login.html"
     redirect_authenticated_user = True
     extra_context = None
+
+
+def get_index(request):
+    return render(request, 'sportsman/index.html')
