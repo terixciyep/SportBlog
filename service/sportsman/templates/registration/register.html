@@ -1,0 +1,10 @@
+{% extends 'sportsman/base.html' %}
+
+{% block main %}
+    <h1>Регистрация</h1>
+    <form action="{% url 'sportsman:register' %}" method="post">
+        {{ form }}
+        {% csrf_token %}
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+{% endblock main %}
