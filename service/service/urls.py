@@ -22,6 +22,7 @@ from services.views import AthleteInfoView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('services/', include('services.urls'))
+    path('services/', include('services.urls')),
+    path('users/',include('sportsman.urls')),
 ]
 

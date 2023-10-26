@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
 class Sport(models.Model):
@@ -7,10 +7,9 @@ class Sport(models.Model):
     def __str__(self):
         return self.sport
 
-class Sportsman_user(models.Model):
+class Sportsman_user(AbstractUser):
     name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    user = models.OneToOneField(User, on_delete=models.PROTECT)
-    favorite_sport = models.ForeignKey(Sport, on_delete=models.CASCADE)
+    favorite_sport = models.ForeignKey(Sport, on_delete=models.CASCADE, blank=True, null=True)
     def __str__(self):
         return f"{self.name} {self.last_name}"
