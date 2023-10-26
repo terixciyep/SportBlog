@@ -7,4 +7,3 @@ from services.serializers import AthleteSerializer
 class AthleteInfoView(ReadOnlyModelViewSet):
     queryset = Sportsman_user.objects.all()
     serializer_class = AthleteSerializer
-

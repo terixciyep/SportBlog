@@ -24,7 +24,3 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-router = routers.DefaultRouter()
-router.register(r'api/athlete',AthleteInfoView)
-
-urlpatterns+=router.urls
