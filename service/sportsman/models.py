@@ -1,3 +1,4 @@
+from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
@@ -6,6 +7,31 @@ class Sport(models.Model):
 
     def __str__(self):
         return self.sport
+
+class UserManager(BaseUserManager):
+
+    def create_user(self, email, password=None):
+
+        if email is None:
+            raise TypeError('Users must have an email address.')
+
+        user = self.model(email=self.normalize_email(email))
+        user.set_password(password)
+        user.save()
+
+        return user
+
+    def create_superuser(self, email, password):
+
+        if password is None:
+            raise TypeError('Superusers must have a password.')
+
+        user = self.create_user(email, password)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+
+        return user
 
 class Sportsman_user(AbstractUser):
     username = models.CharField(
@@ -22,5 +48,6 @@ class Sportsman_user(AbstractUser):
     email = models.EmailField(max_length=100, blank=True, null=True, unique=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+    objects = UserManager()
     def __str__(self):
         return f"{self.name} {self.last_name}"

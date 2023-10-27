@@ -14,8 +14,6 @@ class UserCreationForm(UserCreationForm):
 
 
 class AuthForm(AuthenticationForm):
-    email = forms.EmailField()
-
     def form_valid(self, form):
         email = form.cleaned_data['email']
         password = form.cleaned_data['password']

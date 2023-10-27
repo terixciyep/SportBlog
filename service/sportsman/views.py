@@ -26,6 +26,8 @@ class Register(View):
         if form.is_valid():
             form.save()
             return redirect(reverse_lazy('sportsman:login'))
+        else:
+            return render(request, self.template_name, context={'form': form})
 
 
 class LoginViewApp(LoginView):
