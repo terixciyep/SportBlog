@@ -3,5 +3,5 @@ from services import views
 app_name = 'service'
 
 urlpatterns = [
-    path('',views.index, name='index'),
+    path('',views.send_email, name='index'),
 ]
