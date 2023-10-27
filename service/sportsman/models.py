@@ -42,6 +42,7 @@ class Sportsman_user(AbstractUser):
             "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
         error_messages={"unique": "A user with that username already exists."},
     )
+    email_verify = models.BooleanField(default=False)
     name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     favorite_sport = models.ForeignKey(Sport, on_delete=models.CASCADE, blank=True, null=True)
@@ -50,4 +51,4 @@ class Sportsman_user(AbstractUser):
     REQUIRED_FIELDS = []
     objects = UserManager()
     def __str__(self):
-        return f"{self.name} {self.last_name}"
+        return f"{self.email}"
