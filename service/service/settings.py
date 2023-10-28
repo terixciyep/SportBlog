@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'sportsman',
-    'services'
+    'services',
+    'sport_categories'
 ]
 
 MIDDLEWARE = [
