@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'sportsman',
     'services',
-    'sport_categories'
+    'sport_categories',
+    'user_ranks'
 ]
 
 MIDDLEWARE = [
@@ -140,3 +141,5 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'default from email'
 LOGIN_REDIRECT_URL = '/users/'
 LOGOUT_REDIRECT_URL = '/users/login'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
