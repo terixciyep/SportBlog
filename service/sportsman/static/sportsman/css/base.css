@@ -96,6 +96,14 @@ a {
 }
 .content_block input {
     border:2px solid #70dbd9;
+    padding: 10px;
+    margin:10px;
+}
+.content_block input:read-only {
+    border:2px solid #70dbd9;
+    background-color: #70d0b9;
+    font-weight: bold;
+    color: #000;
 }
 .reset_password_form {
     margin-top:10px;

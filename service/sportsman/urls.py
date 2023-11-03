@@ -15,4 +15,5 @@ urlpatterns = [
     path('verify_email/<uidb64>/<token>/',views.EmailVerifyView.as_view(),name='verify_email'),
     path('', include('django.contrib.auth.urls')),
     path('register/',views.Register.as_view(), name='register'),
+    path('profile/',views.ProfileView.as_view(), name='profile')
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

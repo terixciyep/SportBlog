@@ -9,7 +9,9 @@ from django.urls import reverse_lazy
 from django.utils.http import urlsafe_base64_decode
 from django.views import View
 import django.contrib.auth.urls
-from sportsman.forms import UserCreationForm, AuthForm, PasswordResetFormCustom
+from django.views.generic import DetailView
+
+from sportsman.forms import UserCreationForm, AuthForm, PasswordResetFormCustom, ProfileForm
 from sportsman.models import Sportsman_user
 from django.contrib.auth.tokens import default_token_generator as token_generator
 
@@ -36,7 +38,7 @@ class Register(View):
             return redirect(reverse_lazy('service:index'))
         if form.is_valid():
             form.save()
-            user = authenticate(email=form.cleaned_data['email'],password=form.cleaned_data['password1'])
+            user = authenticate(email=form.cleaned_data['em ail'],password=form.cleaned_data['password1'])
             send_mail_for_verify(request,user)
             return redirect(reverse_lazy('sportsman:login'))
         else:
@@ -106,6 +108,28 @@ class PasswordResetCompleteViewApp(PasswordResetCompleteView):
             return redirect(reverse_lazy('sport_categories:sport'))
         return super().dispatch(*args, **kwargs)
 
-
+class ProfileView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            form = ProfileForm(instance=request.user)
+            context = {'form':form}
+            return render(request, 'sportsman/profile.html',context=context)
+        else:
+            return redirect(reverse_lazy('sportsman:login'))
+    def post(self, request):
+        if request.user.is_authenticated:
+            instance = request.user
+            form = ProfileForm(instance=instance,data=request.POST)
+            if form.is_valid():
+                if request.POST['password']:
+                    request.user.set_password(request.POST['password'])
+                form.save()
+                context = {'form': form}
+                return render(request, 'sportsman/profile.html', context=context)
+            else:
+                context = {'form':form}
+                return render(request, 'sportsman/profile.html', context=context)
+        else:
+            return redirect(reverse_lazy('sportsman:login'))
 def main_page(request):
     return render(request, 'sportsman/index.html')

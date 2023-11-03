@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model, authenticate, login
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, UsernameField
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, UsernameField, \
+    UserChangeForm
 from django import forms
 from django.core.exceptions import ValidationError
 
@@ -28,16 +29,17 @@ class AuthForm(AuthenticationForm):
             self.user_cache = authenticate(
                 self.request, username=username, password=password
             )
-            if not self.user_cache.email_verify:
-                send_mail_for_verify(self.request, self.user_cache)
-                raise ValidationError(
-                    'Вы не подтвердили почту, вам было выслано письмо, подтвердите в нем регистрацию',
-                    code='not_verify',
-                )
-            if self.user_cache is None:
-                raise self.get_invalid_login_error()
+            if self.user_cache is not None:
+                if not self.user_cache.email_verify:
+                    send_mail_for_verify(self.request, self.user_cache)
+                    raise ValidationError(
+                        'Вы не подтвердили почту, вам было выслано письмо, подтвердите в нем регистрацию',
+                        code='not_verify',
+                    )
+                else:
+                    self.confirm_login_allowed(self.user_cache)
             else:
-                self.confirm_login_allowed(self.user_cache)
+                raise self.get_invalid_login_error()
 
         return self.cleaned_data
     def form_valid(self, form):
@@ -56,3 +58,14 @@ class PasswordResetFormCustom(PasswordResetForm):
         if not User.objects.filter(email=email).exists():
             raise forms.ValidationError('Пользователь с такой почтой не найден')
         return email
+
+class ProfileForm(UserChangeForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}), label='Никнейм',required=False)
+    first_name = forms.CharField(widget=forms.HiddenInput(attrs={'class': 'form-control', 'readonly': 'readonly'}), label='Имя', required=False)
+    last_name = forms.CharField(widget=forms.HiddenInput(attrs={'class': 'form-control', 'readonly': 'readonly'}), label='Фамилия',required=False)
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'readonly': 'readonly'}), label='Адрес электронной почты',required=False)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Введите новый пароль, если желаете поменять его')
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ("username","first_name","last_name","email", 'password')

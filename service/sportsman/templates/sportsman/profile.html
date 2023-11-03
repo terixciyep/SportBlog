@@ -1,0 +1,11 @@
+{% extends 'sportsman/base.html' %}
+
+{% block main %}
+  <h1 class="reset_password_h1">Ваш аккаунт</h1>
+  <form method="post" class="reset_password_form">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit"><p>Поменять данные</p></button>
+  </form>
+ {{ form.errors.error }}
+{% endblock %}
