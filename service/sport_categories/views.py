@@ -27,8 +27,7 @@ class ExerciseListView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        exercise = Exercise.objects.get(pk=self.object.id)
-        ranks = exercise.ranks.all()
-        context['exercise'] = exercise
+        ranks = Exercise.objects.get(pk=self.object.id).ranks.all()
         context['ranks'] = ranks
+        context['exercise'] = self.object
         return context
