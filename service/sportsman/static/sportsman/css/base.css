@@ -74,14 +74,14 @@ a {
 .reset_password {
     grid-area:Res;
 }
-.content_nav {
+.content_nav_logout{
     display:grid;
     grid-template-columns:1fr 1fr 1fr;
     grid-template-areas:
     'Login Reg Res';
     margin-left:25%;
 }
-.content_nav a {
+.content_nav_logout a {
     padding:10px;
     color:#70dbd9;
     font-weight:bold;
@@ -111,7 +111,16 @@ a {
 .nav_aside a {
     color:#000;
 }
-
+.content_block form button {
+    background-color:#70dbd9;
+    color:#000;
+    font-weight:bold;
+    font-size:18px;
+}
+.content_block form button p {
+    margin:10px;
+}
 aside h1 {
     margin:10px;
 }
+

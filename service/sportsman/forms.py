@@ -12,6 +12,7 @@ class UserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ("email",)
+
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
         self.fields['email'].label = "Адрес электронной почты"
