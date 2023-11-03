@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'sport_categories/css/base.css' %}">
 </head>
 <body>
-    {{ user.username }}
+    <h1>Спорт и всё о нем</h1>
+    <h3>{{ user.username }}</h3>
     {% block main %}
-
     {% endblock main %}
     <a href="{% url 'sportsman:reset_password' %}"></a>
 </body>

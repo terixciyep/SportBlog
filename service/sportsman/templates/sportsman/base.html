@@ -4,12 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'sportsman/css/base.css' %}">
 </head>
 <body>
-    {{ user.username }}
-    {% block main %}
-
-    {% endblock main %}
-    <a href="{% url 'sportsman:reset_password' %}"></a>
+    <div class="content">
+        {% if not user.is_authenticated %}
+            <div class="content_nav_logout">
+                <a href="{% url 'sportsman:login' %}" class="login">Войти в профиль</a>
+                <a href="{% url 'sportsman:register' %}" class="register">Зарегистрируйтесь</a>
+                <a href="{% url 'sportsman:reset_password' %}" class="reset_password">Забыли пароль?</a>
+            </div>
+        {% else %}
+            <div class="content_nav_auth">
+                Вход
+            </div>
+        {% endif %}
+        <div class="content_block">
+            {% block main %}
+            {% endblock main %}
+        </div>
+    </div>
+    <div class="aside">
+        <aside>
+            <h1>Спорт: всё о спорте</h1>
+            <nav>
+                <div>
+                    <div class="nav_aside"><a href="{% url 'index' %}">Главная страница</a></div>
+                    <div class="nav_aside"><a href="{% url 'sport_categories:sport' %}">Категории спорта и упражнения</a></div>
+                    <div class="nav_aside"><a href="{% url 'user_ranks:users_ranks_list' %}">Спортсмены</a></div>
+                </div>
+            </nav>
+        </aside>
+    </div>
 </body>
 </html>

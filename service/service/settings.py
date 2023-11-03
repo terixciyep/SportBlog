@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'sportsman',
-    'services',
     'sport_categories',
     'user_ranks'
 ]
@@ -113,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
@@ -135,7 +134,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'artyom.korobov51@gmail.com'
-EMAIL_HOST_PASSWORD = 'secretkey'
+EMAIL_HOST_PASSWORD = 'fdoflaeynfjmdoxl'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'default from email'
@@ -143,3 +142,5 @@ LOGIN_REDIRECT_URL = '/users/'
 LOGOUT_REDIRECT_URL = '/users/login'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")

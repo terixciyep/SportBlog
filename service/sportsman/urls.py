@@ -1,5 +1,7 @@
+from django.conf.urls.static import static
 from django.urls import path, include
 
+from service import settings
 from sportsman import views
 
 app_name = 'sportsman'
@@ -13,6 +15,4 @@ urlpatterns = [
     path('verify_email/<uidb64>/<token>/',views.EmailVerifyView.as_view(),name='verify_email'),
     path('', include('django.contrib.auth.urls')),
     path('register/',views.Register.as_view(), name='register'),
-    path('',views.get_index, name='get_index'),
-
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView, \
     PasswordResetCompleteView
@@ -8,7 +9,7 @@ from django.urls import reverse_lazy
 from django.utils.http import urlsafe_base64_decode
 from django.views import View
 import django.contrib.auth.urls
-from sportsman.forms import UserCreationForm, AuthForm
+from sportsman.forms import UserCreationForm, AuthForm, PasswordResetFormCustom
 from sportsman.models import Sportsman_user
 from django.contrib.auth.tokens import default_token_generator as token_generator
 
@@ -22,7 +23,8 @@ class Register(View):
 
     def get(self, request):
         context = {
-            'form': UserCreationForm()
+            'form': UserCreationForm(),
+            'title': 'Регистрация'
         }
         if request.user.is_authenticated:
             return redirect(reverse_lazy('service:index'))
@@ -30,20 +32,22 @@ class Register(View):
 
     def post(self, request):
         form = UserCreationForm(request.POST)
+        if request.user.is_authenticated:
+            return redirect(reverse_lazy('service:index'))
         if form.is_valid():
             form.save()
             user = authenticate(email=form.cleaned_data['email'],password=form.cleaned_data['password1'])
             send_mail_for_verify(request,user)
             return redirect(reverse_lazy('sportsman:login'))
         else:
-            return render(request, self.template_name, context={'form': form})
+            return render(request, self.template_name, context={'form': form,'title':'Регистрация'})
 
 
 class LoginViewApp(LoginView):
     form_class = AuthForm
     template_name = "registration/login.html"
     redirect_authenticated_user = True
-    extra_context = None
+    extra_context = {'title':'Вход в профиль'}
 
 class EmailVerifyView(View):
     def get(self, request, uidb64, token):
@@ -71,20 +75,37 @@ class ResetPasswordViewApp(PasswordResetView):
     template_name = 'sportsman/reset_password.html'
     success_url = reverse_lazy("sportsman:password_reset_done")
     email_template_name = 'registration/html_form_email.html'
-
+    form_class = PasswordResetFormCustom
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect(reverse_lazy('sport_categories:sport'))
+        return super().dispatch(*args, **kwargs)
 class PasswordResetDoneViewApp(PasswordResetDoneView):
     template_name = "sportsman/reset_password_done.html"
     title = "Password reset sent"
-
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect(reverse_lazy('sport_categories:sport'))
+        return super().dispatch(*args, **kwargs)
 
 class PasswordResetConfirmViewApp(PasswordResetConfirmView):
     success_url = reverse_lazy("sportsman:password_reset_complete")
     template_name = "sportsman/reset_password_confirm.html"
     title = "Enter new password"
 
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect(reverse_lazy('sport_categories:sport'))
+        return super().dispatch(*args, **kwargs)
 class PasswordResetCompleteViewApp(PasswordResetCompleteView):
     template_name = "sportsman/reset_password_complete.html"
     title = "Password reset complete"
 
-def get_index(request):
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect(reverse_lazy('sport_categories:sport'))
+        return super().dispatch(*args, **kwargs)
+
+
+def main_page(request):
     return render(request, 'sportsman/index.html')

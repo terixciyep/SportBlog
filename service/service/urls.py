@@ -16,14 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-from services.views import AthleteInfoView
+from sportsman.views import main_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('services/', include('services.urls')),
     path('users/',include('sportsman.urls')),
     path('sport/', include('sport_categories.urls')),
-    path('ranks/', include('user_ranks.urls'))
+    path('ranks/', include('user_ranks.urls')),
+    path('', main_page, name='index')
 ]
 
